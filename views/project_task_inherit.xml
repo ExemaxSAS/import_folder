@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <!--MODELO PROJECT TASK-->
+    <record model="ir.ui.view" id="related_documents_form_view">
+        <field name="name">related.documents.form</field>
+        <field name="model">project.task</field>
+        <field name="inherit_id" ref="project.view_task_form2"/>
+        <field name="arch" type="xml">
+            <div class="oe_button_box" name="button_box" position="inside">
+                <div name="importation_buttons" groups="import_folder.group_project_importation_manager">
+                    <button class="oe_stat_button" type="object" name="action_view_project_purchase" icon="fa-shopping-basket">
+                        <span class="o_stat_value">
+                            <field name="purchase_count" widget="statinfo" nolabel="1"/><br/>
+                            <span class="o_stat_text text-wrap">Pedidos de Compra</span>
+                        </span>
+                    </button>
+                    <button class="oe_stat_button" type="object" name="action_view_project_stock" icon="fa-spinner">
+                        <span class="o_stat_value">
+                            <field name="stock_count" widget="statinfo" nolabel="1"/><br/>
+                            <span class="o_stat_text">Recepciones</span>
+                        </span>
+                    </button>
+                    <button class="oe_stat_button" type="object" name="action_view_project_account" icon="fa-shopping-basket">
+                        <span class="o_stat_value">
+                            <field name="invoice_count" widget="statinfo" nolabel="1"/><br/>
+                            <span class="o_stat_text">Facturas</span>
+                        </span>
+                    </button>
+                    <!-- <button class="oe_stat_button" type="object" name="action_view_project_stock_landed_cost" icon="fa-rocket">
+                        <span class="o_stat_value">
+                            <field name="stock_landed_count" widget="statinfo" nolabel="1"/><br/>
+                            <span class="o_stat_text">Gastos Distribuidos</span>
+                        </span>
+                    </button> -->
+                </div>
+            </div>
+
+            <xpath expr="//field[@name='user_ids']" position="after">
+                <field name="importation_task" invisible="1"/>
+                <field name="supplier" widget="res_partner_many2one" groups="import_folder.group_project_importation_manager" attrs="{'invisible': [('importation_task', '=', False)]}"/>
+                <field name="instructor_id" widget="res_partner_many2one" groups="import_folder.group_project_importation_manager" attrs="{'invisible': [('importation_task', '=', False)]}"/>
+                <field name="dispatch" groups="import_folder.group_project_importation_manager" attrs="{'invisible': [('importation_task', '=', False)]}"/>
+                <field name="import_license" groups="import_folder.group_project_importation_manager" attrs="{'invisible': [('importation_task', '=', False)]}"/>
+
+                <field name="divisa" groups="import_folder.group_project_importation_manager" attrs="{'invisible': [('importation_task', '=', False)]}"/>
+                <field name="ncm" groups="import_folder.group_project_importation_manager" attrs="{'invisible': [('importation_task', '=', False)]}"/>
+                <field name="shipping" groups="import_folder.group_project_importation_manager" attrs="{'invisible': [('importation_task', '=', False)]}"/>
+                <field name="incoterm" groups="import_folder.group_project_importation_manager" attrs="{'invisible': [('importation_task', '=', False)]}"/>
+            </xpath>
+
+            <xpath expr="//field[@name='legend_done']" position="after">
+                <field name="etd" groups="import_folder.group_project_importation_manager" attrs="{'invisible': [('importation_task', '=', False)]}"/>
+                <field name="eta" groups="import_folder.group_project_importation_manager" attrs="{'invisible': [('importation_task', '=', False)]}"/>
+                <field name="closing_date" groups="import_folder.group_project_importation_manager" attrs="{'invisible': [('importation_task', '=', False)]}"/>
+            </xpath>
+
+           <xpath expr="//field[@name='date_deadline']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="project_task_kanban_view">
+        <field name="name">project.task.kanban</field>
+        <field name="model">project.task</field>
+        <field name="inherit_id" ref="project.view_task_kanban"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='date_deadline']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            
+            <xpath expr="//t[4]" position="after">
+                <field name="description" widget="html"/>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>
