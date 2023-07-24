@@ -6,9 +6,13 @@
         <field name="model">account.move</field>
         <field name="inherit_id" ref="account.view_move_form"/>
         <field name="arch" type="xml">
-            <field name="partner_bank_id" position="after">
+          <data>
+           <notebook>
+            <page string="Importación">
                 <field name="task_id" options="{'no_quick_create': True, 'no_create_edit' : True , 'no_open': True , 'no_create' : True}" domain="[('project_id.name', '=ilike', 'importaciones'),('stage_id.name', 'not ilike', 'cerrado') ]" attrs="{'invisible': [('move_type', 'not in', ('in_invoice', 'in_refund', 'in_receipt'))]}"/>
-            </field>
+            </page>
+           </notebook>
+          </data>
         </field>
     </record>
 
