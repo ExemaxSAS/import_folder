@@ -1,0 +1,9 @@
+<odoo>
+<!-- <template id="report_fe_invoice_document" inherit_id="l10n_ar_report_fe.account_fe_invoices">
+    <xpath expr="//tbody[@class='invoice_tbody']" position="inside">
+        <td style="padding: 5px;"><span t-field="line.dispatch_from_lot"/></td>
+    </xpath>
+</template> -->
+</odoo>
+
+     

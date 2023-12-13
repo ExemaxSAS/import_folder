@@ -1,0 +1,54 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<odoo>
+    <record id="related_documents_form_view" model="ir.ui.view">
+        <field name="name">related.documents.form</field>
+        <field name="model">project.task</field>
+        <field name="inherit_id" ref="project.view_task_form2" />
+        <field name="arch" type="xml">
+            <xpath expr="//div[@name='button_box']" position="inside">
+            <!--test de botones en vista sin los modulos ODOO_PACKAGE_ADDONS-->
+                <button class="oe_stat_button" type="object" name="action_view_project_purchase" icon="fa-shopping-basket">
+                    <span class="o_stat_value">
+                        <field name="purchase_count" widget="statinfo" nolabel="1"/><br/>
+                        <span class="o_stat_text text-wrap">Pedidos de Compra</span>
+                    </span>
+                </button>
+                <button class="oe_stat_button" type="object" name="action_view_project_stock" icon="fa-spinner">
+                    <span class="o_stat_value">
+                        <field name="stock_count" widget="statinfo" nolabel="1"/><br/>
+                        <span class="o_stat_text">Recepciones</span>
+                    </span>
+                </button>
+                <button class="oe_stat_button" type="object" name="action_view_project_account" icon="fa-shopping-basket">
+                        <span class="o_stat_value">
+                            <field name="invoice_count" widget="statinfo" nolabel="1"/><br/>
+                            <span class="o_stat_text">Facturas</span>
+                        </span>
+                    </button>
+            </xpath>
+            <!--test de campos individuales en vista sin los modulos ODOO_PACKAGE_ADDON-->
+        </field>
+    </record>
+    <record model="ir.ui.view" id="view_projecmodify_fields">
+            <field name="name">views.project.modify.fields</field>
+            <field name="model">project.task</field>
+            <field name="inherit_id" ref="project.view_task_form2"/>
+            <field name="arch" type="xml">
+                  <field name="user_ids" position="after">
+                    <field name="importation_task" invisible="1"/>
+                    <field name="supplier"/>
+                    <field name="instructor_id" />
+                    <field name="dispatch" />
+                    <field name="import_license"/>
+
+                    <field name="divisa" invisible="1" />
+                    <field name="ncm" />
+                    <field name="shipping" />
+                    <field name="incoterm"/>
+                     <field name="etd"/>
+                    <field name="eta" />
+                    <field name="closing_date" />
+                  </field>
+            </field>
+    </record>
+</odoo>

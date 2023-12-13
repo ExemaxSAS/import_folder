@@ -26,12 +26,12 @@
                             <span class="o_stat_text">Facturas</span>
                         </span>
                     </button>
-                    <!-- <button class="oe_stat_button" type="object" name="action_view_project_stock_landed_cost" icon="fa-rocket">
+                    <button class="oe_stat_button" type="object" name="action_view_project_stock_landed_cost" icon="fa-rocket">
                         <span class="o_stat_value">
                             <field name="stock_landed_count" widget="statinfo" nolabel="1"/><br/>
                             <span class="o_stat_text">Gastos Distribuidos</span>
                         </span>
-                    </button> -->
+                    </button>
                 </div>
             </div>
 
@@ -41,8 +41,7 @@
                 <field name="instructor_id" widget="res_partner_many2one" groups="import_folder.group_project_importation_manager" attrs="{'invisible': [('importation_task', '=', False)]}"/>
                 <field name="dispatch" groups="import_folder.group_project_importation_manager" attrs="{'invisible': [('importation_task', '=', False)]}"/>
                 <field name="import_license" groups="import_folder.group_project_importation_manager" attrs="{'invisible': [('importation_task', '=', False)]}"/>
-
-                <field name="divisa" groups="import_folder.group_project_importation_manager" attrs="{'invisible': [('importation_task', '=', False)]}"/>
+                <field name="divisa"  invisible="1"/>
                 <field name="ncm" groups="import_folder.group_project_importation_manager" attrs="{'invisible': [('importation_task', '=', False)]}"/>
                 <field name="shipping" groups="import_folder.group_project_importation_manager" attrs="{'invisible': [('importation_task', '=', False)]}"/>
                 <field name="incoterm" groups="import_folder.group_project_importation_manager" attrs="{'invisible': [('importation_task', '=', False)]}"/>
@@ -70,9 +69,9 @@
                 <attribute name="invisible">1</attribute>
             </xpath>
             
-            <xpath expr="//t[4]" position="after">
+            <field name="milestone_id" position="after">
                 <field name="description" widget="html"/>
-            </xpath>
+            </field>
         </field>
     </record>
 

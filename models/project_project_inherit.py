@@ -6,3 +6,5 @@ class ProjectInherit(models.Model):
     _inherit = 'project.project'
 
     importation = fields.Boolean(string='Importación' , default=False) # ok
+
+

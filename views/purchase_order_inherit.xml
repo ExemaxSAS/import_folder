@@ -7,7 +7,7 @@
         <field name="inherit_id" ref="purchase.purchase_order_form"/>
         <field name="arch" type="xml">
             <xpath expr="//sheet[1]/group[1]/group[1]/field[@name='currency_id']" position="after">
-                <field name="task_id" options="{'no_quick_create': True, 'no_create_edit' : True , 'no_open': True , 'no_create' : True}" domain="[('project_id.name', '=ilike', 'importaciones'),('stage_id.name', 'not ilike', 'cerrado') ]"/>
+                <field name="task_id" options="{'no_quick_create': True, 'no_create_edit' : True , 'no_open': True , 'no_create' : True}" domain="[('project_id.importation', '=', True) ]"/>
             </xpath>
         </field>
     </record>

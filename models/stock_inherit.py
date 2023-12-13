@@ -8,9 +8,9 @@ class StockMoveInherit(models.Model):
 
     @api.depends('picking_id','move_line_ids')#product_id')
     def get_value_dispatch(self):
-        dispatch_num_imp = None
-        dispatch_num = None
-        lot_num = None
+        dispatch_num_imp = ''
+        dispatch_num = ''
+        #lot_num = ''
 
         for rec in self:
 
@@ -22,13 +22,14 @@ class StockMoveInherit(models.Model):
             else:
                 dispatch_num = ''
             
-            for move in rec.move_line_ids:
-                if move.lot_name != False:
-                    lot_num = move.lot_name
-                else:
-                    lot_num = ''
+            # for move in rec.move_line_ids:
+            #     if move.lot_name != False:
+            #         lot_num = move.lot_name
+            #     else:
+            #         lot_num = ''
 
-            rec.dispatch = str(dispatch_num) + '-' + str(lot_num)
+            #rec.dispatch = str(dispatch_num) + '-' + str(lot_num)
+            rec.dispatch = dispatch_num
         return rec.dispatch
 
     dispatch = fields.Char(string='Despacho' , compute='get_value_dispatch')
@@ -44,4 +45,12 @@ class StockPickingInherit(models.Model):
             return rec.task_id
 
     task_id = fields.Many2one('project.task', string='Carpeta de importación' , compute='get_value_task' , store=True)
-    
+    bultos = fields.Char(string='Bultos')
+
+
+class StockMoveLineInherit(models.Model):
+    _inherit = 'stock.move.line'
+
+    dispatchs = fields.Char(string='Despacho', related='move_id.dispatch')
+
+

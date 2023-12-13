@@ -12,6 +12,9 @@
             <xpath expr="//field[@name='product_uom']" position="after">
                 <field name="dispatch" readonly="0"/>                
             </xpath>
+            <xpath expr="//field[@name='origin']" position="after">
+                <field name="bultos"/>
+            </xpath>
         </field>
     </record>
 
@@ -43,45 +46,16 @@
             </xpath>
         </field>
     </record>
-
-     <!-- <record id="stock_landed_cost_action_list_view" model="ir.actions.act_window">
-        <field name="name">Costes en destino</field>
-        <field name="res_model">stock.landed.cost</field>
-        <field name="view_mode">tree,form</field>
-        <field name="search_view_id" ref="stock_landed_costs.view_stock_landed_cost_tree"/>
-    </record> 
-
-    <record model="ir.ui.view" id="stock_landed_cost_imp_form_view">
-        <field name="name">stock.landed.cost.imp.form.custom</field>
-        <field name="model">stock.landed.cost</field>
-        <field name="inherit_id" ref="stock_landed_costs.view_stock_landed_cost_form"/>
+  <!--tree del campo despacho-->
+    <record id="view_stock_move_line_tree_inherit" model="ir.ui.view">
+        <field name="name">stock.move.line.tree.inherit</field>
+        <field name="model">stock.move.line</field>
+        <field name="inherit_id" ref="stock.view_move_line_tree"/>
         <field name="arch" type="xml">
-            <xpath expr="//field[@name='picking_ids']" position="after">
-                <field name="task_id" options="{'no_quick_create': True, 'no_create_edit' : True , 'no_create' : True}" domain="[('project_id.name', '=ilike', 'importaciones'),('stage_id.name', 'not ilike', 'cerrado') ]"/>
+            <xpath expr="//field[@name='lot_id']" position="after">
+                <field name="dispatchs"/>
             </xpath>
         </field>
     </record>
 
-    <record model="ir.ui.view" id="stock_landed_cost_imp_tree_view">
-        <field name="name">stock.landed.cost.imp.tree.custom</field>
-        <field name="model">stock.landed.cost</field>
-        <field name="inherit_id" ref="stock_landed_costs.view_stock_landed_cost_tree"/>
-        <field name="arch" type="xml">
-            <xpath expr="//field[@name='name']" position="after">
-                <field name="task_id"/>
-            </xpath>
-        </field>
-    </record>
-
-    <record model="ir.ui.view" id="stock_replenishment_cost_imp_form_view">
-        <field name="name">stock.replenishment.cost.imp.form.custom</field>
-        <field name="model">stock.valuation.layer</field>
-        <field name="inherit_id" ref="stock_account.stock_valuation_layer_tree"/>
-        <field name="arch" type="xml">
-            <xpath expr="//field[@name='value']" position="after">
-                <field name="replenishment_cost" widget="monetary"/>
-            </xpath>
-        </field>
-    </record>
-    -->
 </odoo>

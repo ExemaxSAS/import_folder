@@ -13,6 +13,7 @@
         'purchase',
         'account',
         'purchase_stock',
+        'sale',
         # 'stock_landed_costs',
         'stock_account',
         #'project_enterprise',
@@ -24,8 +25,11 @@
         'security/ir.model.access.csv',
         'views/account_move_inherit.xml',
         'views/project_project_inherit.xml',
-        'views/project_task_inherit.xml',
+        #'views/project_task_inherit.xml',
         'views/purchase_order_inherit.xml',
         'views/stock_views_inherit.xml',
+        #'views/dispach_line_sale.xml',
+        'views/dispatch_line_picking.xml',
+        'views/test_views.xml',
     ]
 }

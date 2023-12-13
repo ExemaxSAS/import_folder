@@ -56,16 +56,16 @@ class ProjectTaskInherit(models.Model):
             return rec.importation_task
 
     def action_view_project_stock(self):
-        action = self.env["ir.actions.act_window"]._for_xml_id("import_folder.stock_picking_action_list_view")
+        action = self.env["ir.actions.act_window"]._for_xml_id("import_folder_016.stock_picking_action_list_view")
         action['domain'] = [('task_id', '=', self.id)]
         return action
 
     def action_view_project_account(self):
-        action = self.env["ir.actions.act_window"]._for_xml_id("import_folder.account_move_action_list_view")
+        action = self.env["ir.actions.act_window"]._for_xml_id("import_folder_016.account_move_action_list_view")
         action['domain'] = [('task_id', '=', self.id)]
         return action
 
     def action_view_project_purchase(self):
-        action = self.env["ir.actions.act_window"]._for_xml_id("import_folder.purchase_order_action_list_view")
+        action = self.env["ir.actions.act_window"]._for_xml_id("import_folder_016.purchase_order_action_list_view")
         action['domain'] = [('task_id', '=', self.id)]
         return action
