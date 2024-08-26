@@ -17,7 +17,7 @@ class ProjectTaskInherit(models.Model):
     invoice_count = fields.Integer(store=True,readonly=False)
     stock_count = fields.Integer(compute='_compute_task_data_stock', string="Remitos")
     importation = fields.Boolean(related='project_id.importation', string='Importación', store=True)
-
+    
     supplier = fields.Many2one('res.partner', string='Proveedor')
     instructor_id = fields.Many2one('res.partner', string='Agente de carga')
     dispatch = fields.Char(string='Nro Despacho')
@@ -154,3 +154,12 @@ class ImportCampos(models.Model):
         action['domain'] = [('task_id', '=', self.id)]
         return action
 
+    
+   
+    @api.onchange('project_id')
+    def _onchange_project_id(self):
+        if self.project_id:
+            if self.project_id.importation:
+                return {'domain': {'tag_ids': [('importation', '=', True)]}}
+            else:
+                return {'domain': {'tag_ids': [('importation', '=', False)]}}

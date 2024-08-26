@@ -72,27 +72,30 @@
             </xpath>
         </field>
     </record>
-     <record model="ir.ui.view" id="view_project_import_extras">
-            <field name="name">project.fields</field>
-            <field name="model">project.task</field>
-            <field name="inherit_id" ref="project.view_task_form2"/>
-            <field name="arch" type="xml">
-               <field name="tag_ids" position="after">
-                    <field name="operation" attrs="{'invisible': [('importation', '=', False)]}"/>
-                    <field name="arrive" attrs="{'invisible': [('importation', '=', False)]}"/>
-                    <field name="bl" attrs="{'invisible': [('importation', '=', False)]}"/>
-                    <field name="tipo_bl"  attrs="{'invisible': [('importation', '=', False)]}"/>
-                    <field name="sira_aprob"  attrs="{'invisible': [('importation', '=', False)]}"/>
-                    <field name="sira_text"  attrs="{'invisible': [('importation', '=', False)]}"/>
-                    <field name="sira_date" attrs="{'invisible': [('importation', '=', False)]}"/>
-                    <field name="nav" attrs="{'invisible': [('importation', '=', False)]}"/>
-                    <field name="currency_id" invisible="1"/>
-                    <field name="for_money"  attrs="{'invisible': [('importation', '=', False)]}"/>
-                    <field name="sira_money" attrs="{'invisible': [('importation', '=', False)]}"/>
-                    <field name="currency_field" attrs="{'invisible': [('importation', '=', False)]}"/>
-                    <field name="traslation" attrs="{'invisible': [('importation', '=', False)]}"/>
-                 </field>
+    <record model="ir.ui.view" id="view_project_import_extras">
+        <field name="name">project.fields</field>
+        <field name="model">project.task</field>
+        <field name="inherit_id" ref="project.view_task_form2"/>
+        <field name="arch" type="xml">
+            <field name="tag_ids" position="attributes">
+                <attribute name="domain">[('importation_tag', '=', True)]</attribute>
             </field>
+            <field name="tag_ids" position="after">
+                <field name="operation" attrs="{'invisible': [('importation', '=', False)]}"/>
+                <field name="arrive" attrs="{'invisible': [('importation', '=', False)]}"/>
+                <field name="bl" attrs="{'invisible': [('importation', '=', False)]}"/>
+                <field name="tipo_bl" attrs="{'invisible': [('importation', '=', False)]}"/>
+                <field name="sira_aprob" attrs="{'invisible': [('importation', '=', False)]}"/>
+                <field name="sira_text" attrs="{'invisible': [('importation', '=', False)]}"/>
+                <field name="sira_date" attrs="{'invisible': [('importation', '=', False)]}"/>
+                <field name="nav" attrs="{'invisible': [('importation', '=', False)]}"/>
+                <field name="currency_id" invisible="1"/>
+                <field name="for_money" attrs="{'invisible': [('importation', '=', False)]}"/>
+                <field name="sira_money" attrs="{'invisible': [('importation', '=', False)]}"/>
+                <field name="currency_field" attrs="{'invisible': [('importation', '=', False)]}"/>
+                <field name="traslation" attrs="{'invisible': [('importation', '=', False)]}"/>
+            </field>
+        </field>
     </record>
 
     <record model="ir.ui.view" id="view_project_pages">

@@ -10,7 +10,7 @@
                 <field name='is_purchase' invisible='1'/>
                 <field name="task_ids" widget="many2many_tags"
                     attrs="{'invisible': [('picking_type_code', 'in', ['outgoing', 'pack', 'pick'])]}"
-                    options="{'no_quick_create': True, 'no_create_edit': True, 'no_create': True}"
+                    options="{'no_quick_create': True, 'no_create_edit': False, 'no_create': False}"
                     domain="[('project_id.importation', '=', True), ('stage_id.name', 'not ilike', 'cerrado')]"
                 />
                 <field name="task_id"

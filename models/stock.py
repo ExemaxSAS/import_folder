@@ -68,7 +68,7 @@ class StockPickingInherit(models.Model):
                     rec.task_id = False
 
     #task_id = fields.Many2one('project.task', string='Carpeta de importación', compute='get_value_task', store=True)
-    task_ids = fields.Many2many('project.task', string='Carpeta de importación', compute='get_value_tasks', readonly=False, store=True)
+    task_ids = fields.Many2many('project.task','stock_picking_task_rel_import','picking_id','task_id', string='Carpeta de importación', compute='get_value_tasks', readonly=False, store=True)
 
 
 

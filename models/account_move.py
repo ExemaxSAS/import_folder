@@ -10,7 +10,6 @@ class AccountMoveInherit(models.Model):
 
     task_id = fields.Many2many('project.task', string='Carpeta de importación', readonly=False)
 
-
 class AccountMoveInherit(models.Model):
     _inherit = 'account.move.line'
 

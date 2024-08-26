@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 {
     "name": "Carpeta de Importaciones",
     'version': '15.0',
@@ -28,8 +27,8 @@
         'views/purchase_order.xml',
         'views/stock.xml',
         'views/dispatch.xml',
-        #'views/test.xml',
+        'views/project_tags_view.xml',
+        
     ],
     'icon': 'static/description/icon.png',  
 }
-
