@@ -3,5 +3,6 @@ from odoo import fields, models
 class ProjectTag(models.Model):
     _inherit = 'project.tags'
 
-    importation_tag = fields.Boolean(string="Etiqueta de Importación")
-    exportation_tag = fields.Boolean(string="Etiqueta de Exportación")
+    importation_tag_import = fields.Boolean(string="Etiqueta de Importación (Importación)")
+    #exportation_tag_import = fields.Boolean(string="Etiqueta de Exportación (Importación)")
+

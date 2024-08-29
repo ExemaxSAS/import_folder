@@ -17,7 +17,7 @@ class ProjectTaskInherit(models.Model):
     invoice_count = fields.Integer(store=True,readonly=False)
     stock_count = fields.Integer(compute='_compute_task_data_stock', string="Remitos")
     importation = fields.Boolean(related='project_id.importation', string='Importación', store=True)
-    
+   
     supplier = fields.Many2one('res.partner', string='Proveedor')
     instructor_id = fields.Many2one('res.partner', string='Agente de carga')
     dispatch = fields.Char(string='Nro Despacho')

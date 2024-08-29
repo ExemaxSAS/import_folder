@@ -9,15 +9,13 @@ _logger = logging.getLogger(__name__)
 class StockMoveInherit(models.Model):
     _inherit = 'stock.move'
 
+    @api.depends('picking_id.task_id.dispatch')
     def get_value_dispatch(self):
+        _logger.info('********* Ingreso al nro de despacho')
         for rec in self:
-            if len(rec.picking_id.task_ids) == 1:
-                rec.dispatch = rec.picking_id.task_ids[0].dispatch
-            else:
-                rec.dispatch = False
+            rec.dispatch = rec.picking_id.task_id.dispatch
 
     dispatch = fields.Char(string='Transito picking', compute='get_value_dispatch')
-
 
 class StockPickingInherit(models.Model):
     _inherit = 'stock.picking'
@@ -67,7 +65,6 @@ class StockPickingInherit(models.Model):
                 else:
                     rec.task_id = False
 
-    #task_id = fields.Many2one('project.task', string='Carpeta de importación', compute='get_value_task', store=True)
     task_ids = fields.Many2many('project.task','stock_picking_task_rel_import','picking_id','task_id', string='Carpeta de importación', compute='get_value_tasks', readonly=False, store=True)
 
 
@@ -86,15 +83,7 @@ class StockPickingInherit(models.Model):
 class StockMoveLineInherit(models.Model):
     _inherit = 'stock.move.line'
 
-    dispatch = fields.Char(string='Transito', compute='_get_dispatch_from_task')
-
-    @api.depends('picking_id.task_ids')
-    def _get_dispatch_from_task(self):
-        for record in self:
-            if len(record.picking_id.task_ids) == 1:
-                record.dispatch = record.picking_id.task_ids[0].dispatch
-            else:
-                record.dispatch = ''
+    dispatchs = fields.Char(string='Transito', related='move_id.dispatch')
 
 #Gabriel, acá se guarda el nombre del campo dispatch al confirmar las cantidades detro del lot_name
 class PurchaseOrderInherit(models.Model):
@@ -109,11 +98,3 @@ class PurchaseOrderInherit(models.Model):
         for line in self.order_line:
             for move_line in line.move_ids.move_line_ids:
                 move_line.lot_name = move_line.move_id.picking_id.task_id.dispatch
-
-
-
-
-
-
-
-

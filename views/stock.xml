@@ -46,9 +46,9 @@
         <field name="inherit_id" ref="stock.vpicktree"/>
         <field name="arch" type="xml">
             <xpath expr="//field[@name='partner_id']" position="after">
-                <!-- <field name='is_purchase' invisible='True'/>
-                <field name="task_ids" attrs="{'invisible': [('is_purchase', '=', True)]}"/>
-                <field name="task_id" attrs="{'invisible': [('is_purchase', '=', False)]}"/> -->
+                <!-- <field name='is_purchase' invisible='True'/>-->
+                <field name="task_ids"/>
+                <!--<field name="task_id" attrs="{'invisible': [('is_purchase', '=', False)]}"/> -->
             </xpath>
         </field>
     </record>
@@ -59,9 +59,9 @@
         <field name="inherit_id" ref="stock.view_picking_internal_search"/>
         <field name="arch" type="xml">
             <xpath expr="//field[@name='origin']" position="after">
-                <!-- <field name='is_purchase' invisible='True'/>
-                <field name="task_ids" attrs="{'invisible': [('is_purchase', '=', True)]}"/>
-                <field name="task_id" attrs="{'invisible': [('is_purchase', '=', False)]}"/> -->
+                <!-- <field name='is_purchase' invisible='True'/>-->
+                <field name="task_ids"/>
+                <!--<field name="task_id" attrs="{'invisible': [('is_purchase', '=', False)]}"/> -->
             </xpath>
         </field>
     </record>
@@ -72,7 +72,7 @@
         <field name="inherit_id" ref="stock.view_move_line_tree"/>
         <field name="arch" type="xml">
             <xpath expr="//field[@name='lot_id']" position="after">
-                <field name="dispatch"/>
+                <field name="dispatchs"/>
             </xpath>
         </field>
     </record>
