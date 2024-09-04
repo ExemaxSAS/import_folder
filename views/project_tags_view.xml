@@ -9,7 +9,6 @@
             <!-- Insertando los nuevos campos después del campo 'color' -->
             <xpath expr="//field[@name='color']" position="after">
                 <field name="importation_tag_import" optional="show"/>
-                <!--<field name="exportation_tag_import" optional="show"/>-->
             </xpath>
         </field>
     </record>

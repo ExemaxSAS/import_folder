@@ -24,7 +24,7 @@ class PurchaseOrderInherit(models.Model):
 
         return res
 
-    def action_create_invoice(self):
+    '''def action_create_invoice(self):
         # Llamar al método original para crear las facturas
         res = super(PurchaseOrderInherit, self).action_create_invoice()
 
@@ -39,6 +39,26 @@ class PurchaseOrderInherit(models.Model):
             # Asociar las tareas a las facturas
             for invoice in invoices:
                 if order.task_id:
+                    invoice.task_id = [(4, task.id) for task in order.task_id]
+
+        return res'''
+
+    def action_create_invoice(self):
+        # Llamar al método original para crear las facturas
+        res = super(PurchaseOrderInherit, self).action_create_invoice()
+
+        # Obtener las facturas asociadas al pedido de compra actual
+        for order in self:
+            # Buscar las facturas que están asociadas con el pedido de compra actual
+            invoices = self.env['account.move'].search([
+                ('purchase_id', '=', order.id),
+                ('move_type', '=', 'in_invoice')
+            ])
+
+            # Asociar las tareas a las facturas
+            for invoice in invoices:
+                if order.task_id:
+                    # Añadir solo las tareas asociadas al pedido de compra actual
                     invoice.task_id = [(4, task.id) for task in order.task_id]
 
         return res

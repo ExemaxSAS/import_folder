@@ -22,15 +22,15 @@ class AccountMoveInherit(models.Model):
     task_id = fields.Many2many('project.task', string='Carpeta de importación', readonly=False)
     
     # Define un campo Booleano que se calcula automáticamente y se almacena en la base de datos
-    is_import_page_visible = fields.Boolean(compute='_compute_is_import_page_visible', store=True)
+    #is_import_page_visible = fields.Boolean(compute='_compute_is_import_page_visible', store=True)
 
     # Método para calcular el valor del campo 'is_import_page_visible'
-    @api.depends('move_type', 'task_id.project_id.exportation')
-    def _compute_is_import_page_visible(self):
+    #@api.depends('move_type', 'task_id.project_id.exportation')
+    '''def _compute_is_import_page_visible(self):
         for record in self:
             # Calcula si la pestaña de importación debe ser visible
             # La pestaña es visible si no es una factura de salida (out_invoice) y si la tarea asociada no es de exportación
-            record.is_import_page_visible = not (record.move_type == 'out_invoice' or (record.task_id and record.task_id.project_id.exportation))
+            record.is_import_page_visible = not (record.move_type == 'out_invoice' or (record.task_id and record.task_id.project_id.exportation))'''
 
 # Define una nueva clase que hereda del modelo 'account.move.line'
 class AccountMoveInheritLine(models.Model):

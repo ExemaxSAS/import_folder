@@ -1,3 +1,4 @@
+
 # -*- coding: utf-8 -*-
 
 from datetime import timedelta
@@ -86,7 +87,7 @@ class ImportCampos(models.Model):
     ret = fields.Float('Retail')
     may = fields.Float('Mayorista')
 
-#Solapa LOGÍSTICA
+#Solapa LOGÍSTICA
     website_link = fields.Char('Enlace al sitio web')
     number_cont = fields.Char('Nro. de contenedor')
     weight = fields.Integer('Peso bruto')
@@ -155,11 +156,3 @@ class ImportCampos(models.Model):
         return action
 
     
-   
-    @api.onchange('project_id')
-    def _onchange_project_id(self):
-        if self.project_id:
-            if self.project_id.importation:
-                return {'domain': {'tag_ids': [('importation', '=', True)]}}
-            else:
-                return {'domain': {'tag_ids': [('importation', '=', False)]}}
