@@ -1,74 +1,108 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
-    <!-- Vista Formulario para Project Task -->
-    <record model="ir.ui.view" id="related_documents_form_view">
-        <field name="name">related.documents.form</field>
+    <!-- Vista Formulario para Project Task en Importación -->
+    <record id="view_task_import_form" model="ir.ui.view">
+        <field name="name">project.task.import.form</field>
         <field name="model">project.task</field>
-        <field name="inherit_id" ref="project.view_task_form2"/>
+        <field name="inherit_id" ref="project.view_task_form2" />
         <field name="arch" type="xml">
             <!-- Inserta un campo invisible "importation" antes del primer grupo en el formulario -->
             <xpath expr="//sheet/group" position="before">
                 <group>
-                    <field name="importation"  attrs="{'invisible': [(1, '=', 1)]}"/>
+                    <field name="importation" attrs="{'invisible': [('importation', '=', False)]}" />
                 </group>
             </xpath>
+            <xpath expr="//form" position="inside">
+                <field name="is_import" invisible="1"/>
+            </xpath>
+
+            <xpath expr="//field[@name='tag_ids']" position="attributes">
+                <attribute name="attrs">{'invisible': [('importation', '=', True)]}</attribute>
+            </xpath>
+
+            <!-- Campo tags_export será visible cuando is_export sea True -->
+            <xpath expr="//field[@name='tag_ids']" position="after">
+                <field name="tags_import" attrs="{'invisible': [('importation', '=', False)]}" widget='many2many_tags' domain="[('is_import', '=', True)]"/>
+            </xpath>
+
+            <!-- Filtro para Etiquetas -->
+            <!--<xpath expr="//field[@name='tag_ids']" position="attributes">
+                <attribute name="domain">[('importation_tag_import', '=', True)]</attribute>
+            </xpath>-->
 
             <!-- Botones personalizados visibles solo si "importation" es True -->
-            <div class="oe_button_box" name="button_box" position="inside">
+            <xpath expr="//div[@name='button_box']" position="inside">
                 <div name="importation_buttons" attrs="{'invisible': [('importation', '=', False)]}">
-                    <button class="oe_stat_button" type="object" name="action_view_project_purchase" icon="fa-shopping-basket">
+                    <button class="oe_stat_button" type="object" name="action_view_project_purchase"
+                        icon="fa-shopping-basket">
                         <span class="o_stat_value">
-                            <field name="purchase_count" widget="statinfo" nolabel="1"/><br/>
+                            <field name="purchase_count" widget="statinfo" nolabel="1" />
+                            <br />
                             <span class="o_stat_text text-wrap">Pedidos de Compra</span>
                         </span>
                     </button>
-                    <button class="oe_stat_button" type="object" name="action_view_project_stock" icon="fa-spinner">
+                    <button class="oe_stat_button" type="object" name="action_view_project_stock"
+                        icon="fa-spinner">
                         <span class="o_stat_value">
-                            <field name="stock_count" widget="statinfo" nolabel="1"/><br/>
+                            <field name="stock_count" widget="statinfo" nolabel="1" />
+                            <br />
                             <span class="o_stat_text">Recepciones</span>
                         </span>
                     </button>
-                    <button class="oe_stat_button" type="object" name="action_view_project_account" icon="fa-shopping-basket">
+                    <button class="oe_stat_button" type="object" name="action_view_project_account"
+                        icon="fa-shopping-basket">
                         <span class="o_stat_value">
-                            <field name="invoice_count" widget="statinfo" nolabel="1"/><br/>
+                            <field name="invoice_count" widget="statinfo" nolabel="1" />
+                            <br />
                             <span class="o_stat_text">Facturas</span>
                         </span>
                     </button>
-               </div>
-            </div>
+                </div>
+            </xpath>
 
             <!-- Campos relacionados con importación, visibles solo si "importation" es True -->
             <xpath expr="//field[@name='user_ids']" position="after">
-                <field name="supplier" widget="res_partner_many2one" groups="import_folder.group_project_importation_manager" attrs="{'invisible': [('importation', '=', False)]}"/>
-                <field name="instructor_id" widget="res_partner_many2one" groups="import_folder.group_project_importation_manager" attrs="{'invisible': [('importation', '=', False)]}"/>
-                <field name="dispatch" groups="import_folder.group_project_importation_manager" attrs="{'invisible': [('importation', '=', False)]}"/>
-                <field name="import_license" groups="import_folder.group_project_importation_manager" attrs="{'invisible': [('importation', '=', False)]}"/>
-
-                <field name="divisa" groups="import_folder.group_project_importation_manager" attrs="{'invisible': [('importation', '=', False)]}"/>
-                <field name="ncm" groups="import_folder.group_project_importation_manager" attrs="{'invisible': [('importation', '=', False)]}"/>
-                <field name="shipping" groups="import_folder.group_project_importation_manager" attrs="{'invisible': [('importation', '=', False)]}"/>
-                <field name="incoterm" groups="import_folder.group_project_importation_manager" attrs="{'invisible': [('importation', '=', False)]}"/>
+                <field name="supplier" widget="res_partner_many2one"
+                    groups="import_folder.group_project_importation_manager"
+                    attrs="{'invisible': [('importation', '=', False)]}" />
+                <field name="instructor_id" widget="res_partner_many2one"
+                    groups="import_folder.group_project_importation_manager"
+                    attrs="{'invisible': [('importation', '=', False)]}" />
+                <field name="dispatch" groups="import_folder.group_project_importation_manager"
+                    attrs="{'invisible': [('importation', '=', False)]}" />
+                <field name="import_license"
+                    groups="import_folder.group_project_importation_manager"
+                    attrs="{'invisible': [('importation', '=', False)]}" />
+                <field name="divisa" groups="import_folder.group_project_importation_manager"
+                    attrs="{'invisible': [('importation', '=', False)]}" />
+                <field name="ncm" groups="import_folder.group_project_importation_manager"
+                    attrs="{'invisible': [('importation', '=', False)]}" />
+                <field name="shipping" groups="import_folder.group_project_importation_manager"
+                    attrs="{'invisible': [('importation', '=', False)]}" />
+                <field name="incoterm" groups="import_folder.group_project_importation_manager"
+                    attrs="{'invisible': [('importation', '=', False)]}" />
             </xpath>
 
             <!-- Campos de fecha visibles solo si "importation" es True -->
             <xpath expr="//field[@name='legend_done']" position="after">
-                <field name="etd" groups="import_folder.group_project_importation_manager" attrs="{'invisible': [('importation', '=', False)]}"/>
-                <field name="eta" groups="import_folder.group_project_importation_manager" attrs="{'invisible': [('importation', '=', False)]}"/>
+                <field name="etd" groups="import_folder.group_project_importation_manager"
+                    attrs="{'invisible': [('importation', '=', False)]}" />
+                <field name="eta" groups="import_folder.group_project_importation_manager"
+                    attrs="{'invisible': [('importation', '=', False)]}" />
             </xpath>
 
-           <!-- Campo "date_deadline" oculto -->
-           <xpath expr="//field[@name='date_deadline']" position="attributes">
+            <!-- Campo "date_deadline" oculto -->
+            <xpath expr="//field[@name='date_deadline']" position="attributes">
                 <attribute name="invisible">1</attribute>
             </xpath>
-
         </field>
     </record>
 
-    <!-- Vista Kanban para Project Task -->
-    <record model="ir.ui.view" id="project_task_kanban_view">
-        <field name="name">project.task.kanban</field>
+    <!-- Vista Kanban para Project Task en Importación -->
+    <record id="view_task_import_kanban" model="ir.ui.view">
+        <field name="name">project.task.import.kanban</field>
         <field name="model">project.task</field>
-        <field name="inherit_id" ref="project.view_task_kanban"/>
+        <field name="inherit_id" ref="project.view_task_kanban" />
         <field name="arch" type="xml">
             <!-- Campo "date_deadline" oculto -->
             <xpath expr="//field[@name='date_deadline']" position="attributes">
@@ -77,61 +111,68 @@
 
             <!-- Inserta la descripción después del cuarto elemento <t> -->
             <xpath expr="//t[4]" position="after">
-                <field name="description" widget="html"/>
+                <field name="description" widget="html" />
             </xpath>
         </field>
     </record>
 
     <!-- Páginas adicionales en un notebook dentro del formulario -->
-    <record model="ir.ui.view" id="view_project_pages">
-            <field name="name">project.fields</field>
-            <field name="model">project.task</field>
-            <field name="inherit_id" ref="project.view_task_form2"/>
-            <field name="arch" type="xml">
-                 <data>
-                    <notebook>
-                        <!-- Página "Cuentas" -->
-                        <page string="Cuentas"  attrs="{'invisible': [('importation', '=', False)]}">
-                                  <group>
-                                    <field name="bank"/>
-                                    <field name="ant_fob"/>
-                                    <field name="sal_fob"/>
-                                    <field name="sal_ofi"/>
-                                    <field name="sal_ter"/>
-                                    <field name="sal_nav"/>
-                                    <field name="nav_date"/>
-                                    <field name="fob_cancel" widget="selection"/>
-                                    <field name="total_moneda"/>
-                                  </group>
-                        </page>
+    <record id="view_task_import_pages" model="ir.ui.view">
+        <field name="name">project.task.import.pages</field>
+        <field name="model">project.task</field>
+        <field name="inherit_id" ref="project.view_task_form2" />
+        <field name="arch" type="xml">
+            <notebook>
+                <!-- Página "Cuentas" -->
+                <page string="Cuentas" attrs="{'invisible': [('importation', '=', False)]}">
+                    <group>
+                        <field name="bank" />
+                        <field name="ant_fob" />
+                        <field name="sal_fob" />
+                        <field name="sal_ofi" />
+                        <field name="sal_ter" />
+                        <field name="sal_nav" />
+                        <field name="nav_date" />
+                        <field name="fob_cancel" widget="selection" />
+                        <field name="total_moneda" />
+                    </group>
+                </page>
 
-                        <!-- Página "Logística" -->
-                        <page string="Logística" attrs="{'invisible': [('importation', '=', False)]}">
-                                  <group>
-                                    <field name="website_link" widget="url"/>
-                                    <field name="number_cont"/>
-                                    <field name="weight"/>
-                                    <field name="ret_cont"/>
-                                    <field name="term_arrive"/>
-                                    <field name="term_dev"/>
-                                    <field name="venc"/>
-                                    <field name="ctr"/>
-                                    <field name="desc"/>
-                                    <field name="dep_fisc"/>
-                                  </group>
-                        </page>
+                <!-- Página "Logística" -->
+                <page string="Logística" attrs="{'invisible': [('importation', '=', False)]}">
+                    <group>
+                        <field name="website_link" widget="url" />
+                        <field name="number_cont" />
+                        <field name="weight" />
+                        <field name="ret_cont" />
+                        <field name="term_arrive" />
+                        <field name="term_dev" />
+                        <field name="venc" />
+                        <field name="ctr" />
+                        <field name="desc" />
+                        <field name="dep_fisc" />
+                    </group>
+                </page>
 
-                        <!-- Página "Canales" -->
-                        <page string="Canales" attrs="{'invisible': [('importation', '=', False)]}">
-                                  <group>
-                                    <field name="inc" widget="percentage"/>
-                                    <field name="online" widget="percentage"/>
-                                    <field name="ret" widget="percentage"/>
-                                    <field name="may" widget="percentage"/>
-                                  </group>
-                        </page>
-                    </notebook>
-                 </data>
-            </field>
+                <!-- Página "Canales" -->
+                <page string="Canales" attrs="{'invisible': [('importation', '=', False)]}">
+                    <group>
+                        <field name="inc" widget="percentage" />
+                        <field name="online" widget="percentage" />
+                        <field name="ret" widget="percentage" />
+                        <field name="may" widget="percentage" />
+                    </group>
+                </page>
+            </notebook>
+        </field>
+    </record>
+
+    <!-- Acciones para las vistas de compras -->
+    <record id="purchase_order_action_import_list_view" model="ir.actions.act_window">
+        <field name="name">Purchase Orders Importación</field>
+        <field name="res_model">purchase.order</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('importation', '=', True)]</field>
+        <field name="context">{}</field>
     </record>
 </odoo>

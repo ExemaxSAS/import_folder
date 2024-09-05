@@ -11,16 +11,18 @@ class ProjectTaskInherit(models.Model):
     _inherit = 'project.task'
 
 
-    is_import = fields.Boolean(string="Es Importación")
-    tags_import = fields.Many2many('project.tags', string="Categorías", relation='project_task_tags_import_rel')
-
-    @api.onchange('is_import')
-    def _onchange_is_import(self):
-        if self.is_import:
-            return {'domain': {'tags_import': [('is_import', '=', True)]}}
+    is_import = fields.Boolean(string="Is Import")
+    tag_ids = fields.Many2many('project.tags', string="Tags")
+    tags_import = fields.Many2many('project.tags', string="Import Tags", relation='project_task_tags_>
+    @api.onchange('is_export')
+    def _onchange_is_export(self):
+        if self.is_export:
+            # Cuando is_export es True, mostrar solo etiquetas donde is_export es True
+            return {'domain': {'tags_export': [('is_export', '=', True)]}}
         else:
-            self.tags_import = [(5, 0, 0)]
-            return {'domain': {'tags_import': []}}
+            # Cuando is_export es False, limpiar el campo tags_export
+            self.tags_export = [(5, 0, 0)]
+            return {'domain': {'tags_export': []}} 
 
     purchase_order_ids = fields.One2many('purchase.order','task_id', string='Pedidos de compras')
     stock_picking_ids = fields.One2many('stock.picking','task_id', string='Remitos')
