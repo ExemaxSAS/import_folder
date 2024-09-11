@@ -13,7 +13,7 @@
                 </group>
             </xpath>
             <xpath expr="//form" position="inside">
-                <field name="is_import" invisible="1"/>
+                <field name="is_import" invisible="1" />
             </xpath>
 
             <xpath expr="//field[@name='tag_ids']" position="attributes">
@@ -22,11 +22,13 @@
 
             <!-- Campo tags_export será visible cuando is_export sea True -->
             <xpath expr="//field[@name='tag_ids']" position="after">
-                <field name="tags_import" attrs="{'invisible': [('importation', '=', False)]}" widget='many2many_tags' domain="[('is_import', '=', True)]"/>
+                <field name="tags_import" attrs="{'invisible': [('importation', '=', False)]}"
+                    widget='many2many_tags' domain="[('is_import', '=', True)]" />
             </xpath>
 
             <!-- Filtro para Etiquetas -->
-            <!--<xpath expr="//field[@name='tag_ids']" position="attributes">
+            <!--<xpath
+            expr="//field[@name='tag_ids']" position="attributes">
                 <attribute name="domain">[('importation_tag_import', '=', True)]</attribute>
             </xpath>-->
 
@@ -49,6 +51,7 @@
                             <span class="o_stat_text">Recepciones</span>
                         </span>
                     </button>
+
                     <button class="oe_stat_button" type="object" name="action_view_project_account"
                         icon="fa-shopping-basket">
                         <span class="o_stat_value">

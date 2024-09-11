@@ -23,7 +23,7 @@ class ProjectTaskInherit(models.Model):
             return {'domain': {'tags_import': []}}
 
     purchase_order_ids = fields.One2many('purchase.order','task_id', string='Pedidos de compras')
-    stock_picking_ids = fields.One2many('stock.picking','task_id', string='Remitos')
+    stock_picking_ids = fields.One2many('stock.picking','task_ids', string='Remitos')
     invoice_ids = fields.One2many('account.move','task_id', string='Facturas proveedor')
     invoice_ids_filtered = fields.Many2many('account.move', 'task_id', string='Facturas proveedor')
     purchase_count = fields.Integer(compute='_compute_task_data_purchase', string="Pedidos de compras")
