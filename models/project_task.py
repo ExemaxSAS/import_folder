@@ -22,6 +22,24 @@ class ProjectTaskInherit(models.Model):
             self.tags_import = [(5, 0, 0)]
             return {'domain': {'tags_import': []}}
 
+
+    @api.onchange('project_id')
+    def _onchange_project_id_import(self):
+        if self.project_id:
+           self.is_import = self.project_id.importation
+           if self.is_import:
+           # Si es importación, mostrar solo etiquetas con is_import=True
+               return {'domain': {'tags_import': [('is_import', '=', True)]}}
+           else:
+               # Si no es importación, mostrar solo etiquetas con is_import=False
+               return {'domain': {'tags_import': [('is_import', '=', False)]}}
+        else:
+           # Si no hay proyecto seleccionado, limpiar el campo y eliminar el dominio
+            self.is_import = False
+            self.tags_import = [(5, 0, 0)]
+            return {'domain': {'tags_import': []}}
+
+
     purchase_order_ids = fields.One2many('purchase.order','task_id', string='Pedidos de compras')
     stock_picking_ids = fields.One2many('stock.picking','task_ids', string='Remitos')
     invoice_ids = fields.One2many('account.move','task_id', string='Facturas proveedor')
