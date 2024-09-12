@@ -11,7 +11,6 @@ class StockMoveInherit(models.Model):
 
     @api.depends('picking_id.task_id.dispatch')
     def get_value_dispatch(self):
-        _logger.info('********* Ingreso al nro de despacho')
         for rec in self:
             rec.dispatch = rec.picking_id.task_id.dispatch
 
@@ -37,6 +36,7 @@ class StockPickingInherit(models.Model):
                 for rec in so_reference.tasks_ids:
                     _logger.info(f"TASK ID TEST {rec}")
                 self.task_ids = [(4, task.id) for task in so_reference.tasks_ids]
+
 
     def get_value_tasks(self):
         for rec in self:
@@ -85,7 +85,6 @@ class StockMoveLineInherit(models.Model):
 
     dispatchs = fields.Char(string='Transito', related='move_id.dispatch')
 
-#Gabriel, acá se guarda el nombre del campo dispatch al confirmar las cantidades detro del lot_name
 class PurchaseOrderInherit(models.Model):
     _inherit = 'purchase.order'
 

@@ -1,4 +1,3 @@
-
 # -*- coding: utf-8 -*-
 
 from datetime import timedelta
@@ -10,36 +9,6 @@ _logger= logging.getLogger(__name__)
 class ProjectTaskInherit(models.Model):
     _inherit = 'project.task'
 
-
-    is_import = fields.Boolean(string="Es Importación")
-    tags_import = fields.Many2many('project.tags', string="Categorías", relation='project_task_tags_import_rel')
-
-    @api.onchange('is_import')
-    def _onchange_is_import(self):
-        if self.is_import:
-            return {'domain': {'tags_import': [('is_import', '=', True)]}}
-        else:
-            self.tags_import = [(5, 0, 0)]
-            return {'domain': {'tags_import': []}}
-
-
-    @api.onchange('project_id')
-    def _onchange_project_id_import(self):
-        if self.project_id:
-           self.is_import = self.project_id.importation
-           if self.is_import:
-           # Si es importación, mostrar solo etiquetas con is_import=True
-               return {'domain': {'tags_import': [('is_import', '=', True)]}}
-           else:
-               # Si no es importación, mostrar solo etiquetas con is_import=False
-               return {'domain': {'tags_import': [('is_import', '=', False)]}}
-        else:
-           # Si no hay proyecto seleccionado, limpiar el campo y eliminar el dominio
-            self.is_import = False
-            self.tags_import = [(5, 0, 0)]
-            return {'domain': {'tags_import': []}}
-
-
     purchase_order_ids = fields.One2many('purchase.order','task_id', string='Pedidos de compras')
     stock_picking_ids = fields.One2many('stock.picking','task_ids', string='Remitos')
     invoice_ids = fields.One2many('account.move','task_id', string='Facturas proveedor')
@@ -47,7 +16,10 @@ class ProjectTaskInherit(models.Model):
     purchase_count = fields.Integer(compute='_compute_task_data_purchase', string="Pedidos de compras")
     invoice_count = fields.Integer(store=True,readonly=False)
     stock_count = fields.Integer(compute='_compute_task_data_stock', string="Remitos")
+    is_import = fields.Boolean(string="Es Importación")
+    tags_import = fields.Many2many('project.tags', string="Categorías", relation='project_task_tags_import_rel')
     importation = fields.Boolean(related='project_id.importation', string='Importación', store=True)
+    invoice_numbers = fields.Char(string='Número de Factura', compute='_compute_invoice_ids')
     supplier = fields.Many2one('res.partner', string='Proveedor')
     instructor_id = fields.Many2one('res.partner', string='Agente de carga')
     dispatch = fields.Char(string='Nro Despacho')
@@ -64,7 +36,7 @@ class ProjectTaskInherit(models.Model):
         ('bl', 'BL'),
         ('crt', 'CRT')
     ], string='Tipo Doc de Transporte', default='')
-
+ 
 
 class ImportCampos(models.Model):
     _inherit = 'project.task'
@@ -128,6 +100,18 @@ class ImportCampos(models.Model):
     desc = fields.Selection([('si', 'Si'),('no', 'No')], string='Desconsolida')
     dep_fisc = fields.Char('Deposito fiscal')
 
+    def _compute_invoice_ids(self):
+        for rec in self:
+            invoices = self.env['account.move'].search([('task_id','=',rec.id), ('l10n_latam_document_type_id.doc_code_prefix', 'in', ['FA-I', 'DI'])]) #MODIFICAR SEGUN EL CLIENTE (Y LOS CODIGOS QUE UTILICE)
+            if invoices:
+                for invoice in invoices:
+                    if rec.invoice_numbers:
+                        rec.invoice_numbers = str(rec.invoice_numbers) + ', '+ invoice.name
+                    else:
+                        rec.invoice_numbers = invoice.name
+            else:
+                rec.invoice_numbers = ''
+
 
     def _compute_income_invoice_check(self):
         for rec in self:
@@ -143,6 +127,34 @@ class ImportCampos(models.Model):
                 rec.discharge_invoice_check = True
             else:
                 rec.discharge_invoice_check = False
+
+
+    @api.onchange('is_import')
+    def _onchange_is_import(self):
+        if self.is_import:
+            return {'domain': {'tags_import': [('is_import', '=', True)]}}
+        else:
+            self.tags_import = [(5, 0, 0)]
+            return {'domain': {'tags_import': []}}
+
+
+    @api.onchange('project_id')
+    def _onchange_project_id_import(self):
+        if self.project_id:
+           self.is_import = self.project_id.importation
+           if self.is_import:
+           # Si es importación, mostrar solo etiquetas con is_import=True
+               return {'domain': {'tags_import': [('is_import', '=', True)]}}
+           else:
+               # Si no es importación, mostrar solo etiquetas con is_import=False
+               return {'domain': {'tags_import': [('is_import', '=', False)]}}
+        else:
+           # Si no hay proyecto seleccionado, limpiar el campo y eliminar el dominio
+            self.is_import = False
+            self.tags_import = [(5, 0, 0)]
+            return {'domain': {'tags_import': []}}
+
+
 
 
     @api.depends('purchase_order_ids')

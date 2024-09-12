@@ -42,31 +42,12 @@
         <field name="inherit_id" ref="account.view_move_form"/>
         <field name="arch" type="xml">
             <xpath expr="//notebook" position="inside">
-                <page string="Importación"> <!--attrs="{'invisible': [('is_import_page_visible', '=', False)]}"> COLOCAR ESTO SIN COMENTAR CUANDO EXISTAN DIARIOS:  attrs="{'invisible': [('journal_id', '!=', 'purchase')]}">-->
-                    <!--<field name="task_id" options="{'no_quick_create': True, 'no_create_edit': True, 'no_open': True, 'no_create': True}" domain="[('project_id.name', '=ilike', 'importacion'), ('stage_id.name', 'not ilike', 'cerrado')]"/>-->
+                <page string="Importación">
 
                     <!-- El campo 'task_id' se mostrará con un dominio que filtra por proyectos de importación -->
                     <field name="task_id" domain="[('project_id.importation', '=', True)]"/>
-                    <!-- Campo para depuración -->
-                    <!--<field name="is_import_page_visible"/>-->
                 </page>
             </xpath>
         </field>
     </record>
-
-   <!-- <record id="view_move_form_transit_picking" model="ir.ui.view">
-        <field name="name">account.move.form.transit.picking</field>
-        <field name="model">account.move</field>
-        <field name="inherit_id" ref="account.view_move_form"/>
-        <field name="arch" type="xml">
-            <xpath expr="//notebook/page" position="inside">
-                <group>
-                    <field name="transit_picking_info" widget="text" readonly="1"/>
-                </group>
-            </xpath>
-        </field>
-    </record>-->
-    
-
-
 </odoo>
