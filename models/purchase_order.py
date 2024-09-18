@@ -11,6 +11,7 @@ class PurchaseOrderInherit(models.Model):
 
     task_id = fields.Many2many('project.task', string='Número de tránsito')
 
+
     def button_confirm(self):
         res = super(PurchaseOrderInherit, self).button_confirm()
 
@@ -22,10 +23,14 @@ class PurchaseOrderInherit(models.Model):
             # Asociar la tarea a los pickings
             for picking in pickings:
                 if order.task_id:
-                    picking.task_ids = [(4, order.task_id.id)]
+                    # Si hay múltiples tareas, usamos la operación (4, task.id) para agregar a la lista de tareas
+                    picking.task_id = [(4, task.id) for task in order.task_id]
+
+                # Ejecutar lógica adicional, si es necesario
                 picking.action_get_purchase_id()
 
         return res
+
     def action_create_invoice(self):
         # Llamar al método original para crear las facturas
         res = super(PurchaseOrderInherit, self).action_create_invoice()

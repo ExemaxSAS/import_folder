@@ -9,10 +9,16 @@ _logger = logging.getLogger(__name__)
 class StockMoveInherit(models.Model):
     _inherit = 'stock.move'
 
-    @api.depends('picking_id.task_id.dispatch')
+    @api.depends('move_line_ids.dispatch_from_lot', 'picking_id.picking_type_id')
     def get_value_dispatch(self):
         for rec in self:
-            rec.dispatch = rec.picking_id.task_id.dispatch
+            if rec.picking_id.picking_type_id.code == 'outgoing':  # Detecta si es una salida (venta)
+                # Obtener el dispatch_from_lot desde las líneas de movimiento
+                move_line = rec.move_line_ids.filtered(lambda line: line.dispatch_from_lot)
+                rec.dispatch = move_line[0].dispatch_from_lot if move_line else False
+            else:
+                rec.dispatch = rec.picking_id.task_id.dispatch  # Mantén la lógica actual para entradas
+
 
     dispatch = fields.Char(string='Transito picking', compute='get_value_dispatch')
 
@@ -83,7 +89,12 @@ class StockPickingInherit(models.Model):
 class StockMoveLineInherit(models.Model):
     _inherit = 'stock.move.line'
 
-    dispatchs = fields.Char(string='Transito', related='move_id.dispatch')
+    dispatchs = fields.Char(string='Transito', compute='_compute_dispatchs', store=True)
+
+    @api.depends('move_id.dispatch')
+    def _compute_dispatchs(self):
+        for line in self:
+            line.dispatchs = line.move_id.dispatch
 
 class PurchaseOrderInherit(models.Model):
     _inherit = 'purchase.order'

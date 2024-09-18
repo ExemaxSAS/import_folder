@@ -49,10 +49,12 @@ class StockMoveLineInheritDispatch(models.Model):
     # anular de la parte de ventas, que traiga el lote por defecto y replique el de "transito"
     def _compute_dispatch_from_lot(self):
         for picking in self:
+            # Buscar una línea de movimiento relacionada con el lote
             move_line = self.env['stock.move.line'].search([('lot_id', '=', picking.lot_id.id)], limit=1)
+         
+            # Asignar el valor de 'dispatchs' si se encuentra la línea de movimiento
             if move_line:
                 picking.dispatch_from_lot = move_line.dispatchs
             else:
+                # Asegurarse de que siempre se asigne un valor (aunque sea False)
                 picking.dispatch_from_lot = False
-
-
