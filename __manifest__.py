@@ -30,5 +30,5 @@
         'views/project_tags_view.xml',
         
     ],
-    'icon': 'static/description/icon.png',  
+     
 }
