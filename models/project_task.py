@@ -15,7 +15,7 @@ class ProjectTaskInherit(models.Model):
     invoice_ids_filtered = fields.Many2many('account.move', 'task_id', string='Facturas proveedor')
     purchase_count = fields.Integer(compute='_compute_task_data_purchase', string="Pedidos de compras")
     invoice_count = fields.Integer(store=True,readonly=False)
-    stock_count = fields.Integer(compute='_compute_task_data_stock', string="Remitos")
+    #stock_count = fields.Integer(compute='_compute_task_data_stock', string="Remitos")
     is_import = fields.Boolean(string="Es Importación")
     tags_import = fields.Many2many('project.tags', string="Categorías", relation='project_task_tags_import_rel')
     importation = fields.Boolean(related='project_id.importation', string='Importación', store=True)
@@ -165,13 +165,6 @@ class ImportCampos(models.Model):
             invoices_filtered = self.env['account.move'].search([('task_id', 'in', rec.id)])
             rec.invoice_ids_filtered = [(6, 0, invoices_filtered.ids)]
             rec.invoice_count = len(invoices_filtered)
-
-
-    @api.depends('stock_picking_ids')
-    def _compute_task_data_stock(self):
-        for rec in self:
-            stock_cnt = len(rec.stock_picking_ids)
-            rec.stock_count = stock_cnt
 
 
 
