@@ -11,22 +11,16 @@ class PurchaseOrderInherit(models.Model):
 
     task_id = fields.Many2many('project.task', string='Número de tránsito')
 
-
     def button_confirm(self):
         res = super(PurchaseOrderInherit, self).button_confirm()
 
-        # Lógica para asociar tareas a los pickings generados
         for order in self:
-            # Buscar todos los pickings asociados a esta orden de compra
             pickings = self.env['stock.picking'].search([('origin', '=', order.name)])
 
-            # Asociar la tarea a los pickings
             for picking in pickings:
                 if order.task_id:
-                    # Si hay múltiples tareas, usamos la operación (4, task.id) para agregar a la lista de tareas
-                    picking.task_id = [(4, task.id) for task in order.task_id]
-
-                # Ejecutar lógica adicional, si es necesario
+                    # Agregar todos los IDs de las tareas al picking
+                    picking.task_ids = [(4, task_id.id) for task_id in order.task_id]
                 picking.action_get_purchase_id()
 
         return res

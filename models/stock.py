@@ -17,8 +17,13 @@ class StockMoveInherit(models.Model):
                 move_line = rec.move_line_ids.filtered(lambda line: line.dispatch_from_lot)
                 rec.dispatch = move_line[0].dispatch_from_lot if move_line else False
             else:
-                rec.dispatch = rec.picking_id.task_id.dispatch  # Mantén la lógica actual para entradas
-
+                # Combinar los valores de 'dispatch' de todas las tareas asociadas en 'task_id'
+                if rec.picking_id.task_id:
+                    dispatch_values = [task.dispatch for task in rec.picking_id.task_id if task.dispatch]
+                    # Unir todos los valores de 'dispatch' en una cadena separada por comas
+                    rec.dispatch = ', '.join(dispatch_values) if dispatch_values else False
+                else:
+                    rec.dispatch = False
 
     dispatch = fields.Char(string='Transito picking', compute='get_value_dispatch')
 
@@ -81,7 +86,7 @@ class StockPickingInherit(models.Model):
             rec.task_id = rec.purchase_id.task_id
             return rec.task_id
 
-    task_id = fields.Many2one('project.task', string='Carpeta de importación', store=True)
+    task_id = fields.Many2many('project.task', string='Carpeta de importación', store=True)
     bultos = fields.Char(string='Bultos')
     is_purchase = fields.Boolean(string='is_purchase', compute='compute_is_purchase')
 
