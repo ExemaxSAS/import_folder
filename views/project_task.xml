@@ -38,7 +38,7 @@
                     <button class="oe_stat_button" type="object" name="action_view_project_stock"
                         icon="fa-spinner">
                         <span class="o_stat_value">
-                            <!--<field name="stock_count" widget="statinfo" nolabel="1" />-->
+                            <field name="stock_count_i" widget="statinfo" nolabel="1" />
                             <br />
                             <span class="o_stat_text">Recepciones</span>
                         </span>

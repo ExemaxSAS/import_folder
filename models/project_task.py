@@ -10,12 +10,13 @@ class ProjectTaskInherit(models.Model):
     _inherit = 'project.task'
 
     purchase_order_ids = fields.One2many('purchase.order','task_id', string='Pedidos de compras')
-    stock_picking_ids = fields.One2many('stock.picking','task_ids', string='Remitos')
+    stock_picking_ids = fields.One2many('stock.picking','task_id', string='Remitos')
     invoice_ids = fields.One2many('account.move','task_id', string='Facturas proveedor')
     invoice_ids_filtered = fields.Many2many('account.move', 'task_id', string='Facturas proveedor')
     purchase_count = fields.Integer(compute='_compute_task_data_purchase', string="Pedidos de compras")
     invoice_count = fields.Integer(store=True,readonly=False)
-    #stock_count = fields.Integer(compute='_compute_task_data_stock', string="Remitos")
+    #stock_count_import = fields.Integer(string='Cantidad de Remitos', compute='_compute_stock_count', store=True)
+    stock_count_i = fields.Integer(compute='_compute_task_data_stock', string="Remitos")
     is_import = fields.Boolean(string="Es Importación")
     tags_import = fields.Many2many('project.tags', string="Categorías", relation='project_task_tags_import_rel')
     importation = fields.Boolean(related='project_id.importation', string='Importación', store=True)
@@ -166,6 +167,18 @@ class ImportCampos(models.Model):
             rec.invoice_ids_filtered = [(6, 0, invoices_filtered.ids)]
             rec.invoice_count = len(invoices_filtered)
 
+    '''@api.depends('task_ids')
+    def _compute_stock_count(self):
+        for rec in self:
+            # Contar los remitos que tienen esta tarea asociada
+            stock_pickings = self.env['stock.picking'].search_count([('task_ids', 'in', rec.id)])
+            rec.stock_count = stock_pickings'''
+
+    @api.depends('stock_picking_ids')
+    def _compute_task_data_stock(self):
+        for rec in self:
+            sp_cnt = self.env['stock.picking'].search_count([('task_ids', '=', rec.id)])
+            rec.stock_count_i = sp_cnt
 
 
     @api.depends('project_id')
@@ -189,4 +202,4 @@ class ImportCampos(models.Model):
         action['domain'] = [('task_id', '=', self.id)]
         return action
 
-    
+ 
